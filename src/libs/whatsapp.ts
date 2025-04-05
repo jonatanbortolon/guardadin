@@ -80,7 +80,10 @@ export const whatsapp = {
 					.executeTakeFirst()) || null;
 		}
 
-		const message = `💰 Transação Concluída! 🎉\n\n🆔 Código: ${transaction.id}\n\n📌 Detalhes da Operação:\n───────────────────────\n✏️ Título: ${transaction.description}\n💵 Valor: ${formatPrice(transaction.total)}\n➗ Parcelas: ${transaction.totalParcels}\n🔄 Tipo: ${transaction.type === "EXPENSE" ? "🟥 Saída" : "🟩 Entrada"}\n${category ? `🏷️ Tag: ${category.name}\n` : ""}${bankAccount ? `🏦 Conta Bancária: ${bankAccount.name}\n` : ""}📅 Data: ${formatDate(new Date(transaction.boughtAt))}\n\n🚨 Cancelar esta transação?\nEnvie: "Cancelar transação ${transaction.id}" e nós resolvemos!`;
+		const message = `💰 Transação Concluída! 🎉\n\n🆔 Código: ${transaction.id}\n\n📌 Detalhes da Operação:\n───────────────────────\n✏️ Título: ${transaction.description}\n💵 Valor: ${formatPrice(transaction.total)}\n➗ Parcelas: ${transaction.totalParcels}\n🔄 Tipo: ${transaction.type === "EXPENSE" ? "🟥 Saída" : "🟩 Entrada"}\n${category ? `🏷️ Tag: ${category.name}\n` : ""}${bankAccount ? `🏦 Conta Bancária: ${bankAccount.name}\n` : ""}📅 Data: ${formatDate(new Date(transaction.boughtAt))}\n\n📈 Gerencie melhor seus gastos!
+Esta movimentação já está registrada em seu histórico financeiro.
+Acesse seu Dashboard Completo em: ${env.TRANSACTIONS_URL}
+\n\n🚨 Cancelar esta transação?\nEnvie: "Cancelar transação ${transaction.id}" e nós resolvemos!`;
 
 		await saveAssistantMessage(userId, message, opts);
 
