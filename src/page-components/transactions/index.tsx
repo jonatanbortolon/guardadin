@@ -69,6 +69,10 @@ export function TransactionsHome({
 		Transaction,
 		"createdAt" | "updatedAt" | "userId"
 	> | null>(null);
+	const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<Omit<
+		Transaction,
+		"createdAt" | "updatedAt" | "userId"
+	> | null>(null);
 
 	const [createState, createAction, isCreatePending] = useActionState(
 		createTransactionAction,
@@ -157,6 +161,41 @@ export function TransactionsHome({
 			oldHandler[field] = value as never;
 			return oldHandler;
 		});
+	}
+
+	function toggleDeleteDialog(
+		transaction?: Omit<
+			Transaction,
+			"createdAt" | "updatedAt" | "userId"
+		> | null,
+	) {
+		return () => {
+			if (!transaction) {
+				setIsDeleteDialogOpen(null);
+				return;
+			}
+
+			const {
+				id,
+				totalParcels,
+				description,
+				total,
+				type,
+				boughtAt,
+				categoryId,
+				bankAccountId,
+			} = transaction;
+			setIsDeleteDialogOpen({
+				id,
+				totalParcels,
+				description,
+				total,
+				type,
+				boughtAt,
+				categoryId,
+				bankAccountId,
+			});
+		};
 	}
 
 	useEffect(() => {
@@ -388,7 +427,7 @@ export function TransactionsHome({
 				</DialogContent>
 			</Dialog>
 			<Dialog
-				open={isUpdateDialogOpen !== null}
+				open={isUpdateDialogOpen !== null && isDeleteDialogOpen === null}
 				onOpenChange={closeUpdateDialog}
 			>
 				<DialogContent>
@@ -584,18 +623,55 @@ export function TransactionsHome({
 							</Button>
 						</div>
 					</form>
-					<form action={deleteAction}>
+					<Button
+						className="w-full"
+						variant="destructive"
+						type="button"
+						onClick={toggleDeleteDialog(isUpdateDialogOpen)}
+					>
+						Excluir
+					</Button>
+				</DialogContent>
+			</Dialog>
+			<Dialog
+				open={isDeleteDialogOpen !== null}
+				onOpenChange={toggleDeleteDialog()}
+			>
+				<DialogContent>
+					<DialogHeader>
+						<DialogTitle>Excluir Transação</DialogTitle>
+						<DialogDescription>
+							Exclua a transação "{isDeleteDialogOpen?.description}" - ID:
+							{isDeleteDialogOpen?.id}
+						</DialogDescription>
+					</DialogHeader>
+					<div className="w-full flex gap-4">
+						<form className="flex-1" action={deleteAction}>
+							<input
+								type="hidden"
+								name="id"
+								value={String(isDeleteDialogOpen?.id) || ""}
+							/>
+							<Button
+								className="w-full"
+								type="submit"
+								variant="destructive"
+								disabled={isDeletePending}
+							>
+								{isDeletePending ? (
+									<LoaderCircleIcon className="animate-spin" />
+								) : null}
+								Excluir
+							</Button>
+						</form>
 						<Button
-							variant="destructive"
-							className="w-full"
-							disabled={isDeletePending}
+							className="flex-1"
+							type="button"
+							onClick={toggleDeleteDialog()}
 						>
-							{isDeletePending ? (
-								<LoaderCircleIcon className="animate-spin" />
-							) : null}
-							Excluir
+							Cancelar
 						</Button>
-					</form>
+					</div>
 				</DialogContent>
 			</Dialog>
 			<Table>
