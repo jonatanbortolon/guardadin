@@ -1,0 +1,10 @@
+{
+	"recommendations": [
+		"biomejs.biome",
+		"ms-vscode.vscode-typescript-next",
+		"dotenv.dotenv-vscode",
+		"github.vscode-github-actions",
+		"ms-azuretools.vscode-docker",
+		"bradlc.vscode-tailwindcss"
+	]
+}

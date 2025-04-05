@@ -1,0 +1,91 @@
+{
+	"$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+	"files": {
+		"include": ["**/*.tsx", "**/*.mjs", "**/*.ts", "**/*.css", "**/*.json"],
+		"ignore": ["./node_modules", "./.next"]
+	},
+	"organizeImports": {
+		"enabled": true
+	},
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"recommended": true,
+			"performance": {
+				"noDelete": {
+					"level": "warn",
+					"fix": "none"
+				}
+			},
+			"correctness": {
+				"noChildrenProp": {
+					"level": "off"
+				},
+				"noUnusedVariables": {
+					"level": "warn",
+					"fix": "none"
+				},
+				"useExhaustiveDependencies": {
+					"level": "warn",
+					"options": {
+						"hooks": [
+							{
+								"name": "useEffect",
+								"closureIndex": 0,
+								"dependenciesIndex": 1,
+								"stableResult": true
+							}
+						]
+					}
+				},
+				"noUnknownMediaFeatureName": {
+					"level": "warn"
+				}
+			},
+			"complexity": {
+				"noUselessSwitchCase": {
+					"level": "warn",
+					"fix": "none"
+				},
+				"noUselessConstructor": {
+					"level": "off",
+					"fix": "none"
+				}
+			},
+			"a11y": {
+				"useKeyWithClickEvents": {
+					"level": "off"
+				},
+				"noLabelWithoutControl": {
+					"level": "warn",
+					"options": {}
+				},
+				"noSvgWithoutTitle": {
+					"level": "off"
+				},
+				"useAltText": {
+					"level": "off"
+				}
+			},
+			"suspicious": {
+				"noArrayIndexKey": {
+					"level": "off"
+				},
+				"noExplicitAny": {
+					"level": "off"
+				}
+			},
+			"style": {
+				"useImportType": {
+					"level": "off",
+					"fix": "none"
+				}
+			}
+		}
+	},
+	"formatter": {
+		"indentStyle": "tab",
+		"indentWidth": 2,
+		"lineEnding": "lf"
+	}
+}

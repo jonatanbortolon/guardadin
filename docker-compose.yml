@@ -1,0 +1,104 @@
+services:
+# General services
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "admin@admin.com"
+      PGADMIN_DEFAULT_PASSWORD: "123"
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+      PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: "False"
+    ports:
+      - 16549:80
+    depends_on:
+      - postgres
+    entrypoint: /bin/sh -c "chmod 600 /pgpass; /entrypoint.sh;"
+    user: root
+    configs:
+      - source: servers.json
+        target: /pgadmin4/servers.json
+      - source: pgpass
+        target: /pgpass
+    networks:
+      - app
+
+  mailpit:
+    image: axllent/mailpit:latest
+    ports:
+      - 1025:1025
+      - 8025:8025
+
+  openwebui:
+    image: ghcr.io/open-webui/open-webui:main
+    environment:
+      OLLAMA_BASE_URL: "http://ollama:11434"
+      WEBUI_AUTH: "false"
+    ports:
+      - 3009:8080
+    volumes:
+      - ./docker-volumes/open-webui:/app/backend/data
+    depends_on:
+      - ollama
+    networks:
+      - ollama
+# End general services ======================================================================
+
+# App services
+  postgres:
+    image: postgres:15
+    env_file: .env
+    environment:
+      POSTGRES_DB: ${DB_DATABASE}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    networks:
+      - app
+
+  neon-proxy:
+    image: ghcr.io/neondatabase/wsproxy:latest
+    environment:
+      APPEND_PORT: 'postgres:5432'
+      ALLOW_ADDR_REGEX: '.*'
+      LOG_TRAFFIC: 'true'
+    ports:
+      - 5433:80
+    depends_on:
+      - postgres
+    networks:
+      - app
+
+  ollama:
+    image: ollama/ollama
+    volumes:
+      - ./docker-volumes/ollama-models:/root/.ollama
+    ports:
+      - 11434:11434
+    networks:
+      - ollama
+# End app services ==========================================================================
+
+networks:
+  app:
+    driver: bridge
+  ollama:
+    driver: bridge
+
+configs:
+  pgpass:
+    content: |
+      postgres:${DB_PORT}:${DB_DATABASE}:${DB_USER}:${DB_PASSWORD}
+  servers.json:
+    content: |
+      {
+        "Servers": {
+          "1": {
+            "Name": "GuardaDin",
+            "Group": "Servers",
+            "Host": "postgres",
+            "Port": ${DB_PORT},
+            "MaintenanceDB": "${DB_DATABASE}",
+            "Username": "${DB_USER}",
+            "PassFile": "/pgpass",
+            "SSLMode": "prefer"
+          }
+        }
+      }
