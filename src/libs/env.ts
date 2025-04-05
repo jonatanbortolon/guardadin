@@ -8,6 +8,7 @@ export const env = createEnv({
 			.enum(["development", "production", "test"])
 			.default("development"),
 		DB_URL: z.string().url(),
+		TRANSACTIONS_URL: z.string().url(),
 		OPENAI_API_URL: z.string().url(),
 		OPENAI_MODEL: z.string().min(1),
 		OPENAI_API_KEY: z.string().min(1),
@@ -19,6 +20,7 @@ export const env = createEnv({
 		SESSION_SECRET: process.env.SESSION_SECRET,
 		NODE_ENV: process.env.NODE_ENV,
 		DB_URL: process.env.DB_URL,
+		TRANSACTIONS_URL: process.env.TRANSACTIONS_URL,
 		OPENAI_API_URL: process.env.OPENAI_API_URL,
 		OPENAI_MODEL: process.env.OPENAI_MODEL,
 		OPENAI_API_KEY: process.env.OPENAI_API_KEY,
