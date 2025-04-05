@@ -39,6 +39,10 @@ export default function CategoriesHome({ categories }: Props) {
 		Category,
 		"createdAt" | "isDefault" | "updatedAt" | "userId"
 	> | null>(null);
+	const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<Omit<
+		Category,
+		"createdAt" | "isDefault" | "updatedAt" | "userId"
+	> | null>(null);
 
 	const [createState, createAction, isCreatePending] = useActionState(
 		createCategoryAction,
@@ -112,6 +116,26 @@ export default function CategoriesHome({ categories }: Props) {
 			oldHandler[field] = value as never;
 			return oldHandler;
 		});
+	}
+
+	function toggleDeleteDialog(
+		category?: Omit<
+			Category,
+			"createdAt" | "isDefault" | "updatedAt" | "userId"
+		> | null,
+	) {
+		return () => {
+			if (!category) {
+				setIsDeleteDialogOpen(null);
+				return;
+			}
+
+			const { id, name } = category;
+			setIsDeleteDialogOpen({
+				id,
+				name,
+			});
+		};
 	}
 
 	useEffect(() => {
@@ -190,7 +214,7 @@ export default function CategoriesHome({ categories }: Props) {
 				</DialogContent>
 			</Dialog>
 			<Dialog
-				open={isUpdateDialogOpen !== null}
+				open={isUpdateDialogOpen !== null && isDeleteDialogOpen === null}
 				onOpenChange={closeUpdateDialog}
 			>
 				<DialogContent>
@@ -228,18 +252,55 @@ export default function CategoriesHome({ categories }: Props) {
 							</Button>
 						</div>
 					</form>
-					<form action={deleteAction}>
+					<Button
+						className="w-full"
+						variant="destructive"
+						type="button"
+						onClick={toggleDeleteDialog(isUpdateDialogOpen)}
+					>
+						Excluir
+					</Button>
+				</DialogContent>
+			</Dialog>
+			<Dialog
+				open={isDeleteDialogOpen !== null}
+				onOpenChange={toggleDeleteDialog()}
+			>
+				<DialogContent>
+					<DialogHeader>
+						<DialogTitle>Excluir Categoria</DialogTitle>
+						<DialogDescription>
+							Exclua a categoria "{isDeleteDialogOpen?.name}" - ID:
+							{isDeleteDialogOpen?.id}
+						</DialogDescription>
+					</DialogHeader>
+					<div className="w-full flex gap-4">
+						<form className="flex-1" action={deleteAction}>
+							<input
+								type="hidden"
+								name="id"
+								value={String(isDeleteDialogOpen?.id) || ""}
+							/>
+							<Button
+								className="w-full"
+								type="submit"
+								variant="destructive"
+								disabled={isDeletePending}
+							>
+								{isDeletePending ? (
+									<LoaderCircleIcon className="animate-spin" />
+								) : null}
+								Excluir
+							</Button>
+						</form>
 						<Button
-							variant="destructive"
-							className="w-full"
-							disabled={isDeletePending}
+							className="flex-1"
+							type="button"
+							onClick={toggleDeleteDialog()}
 						>
-							{isDeletePending ? (
-								<LoaderCircleIcon className="animate-spin" />
-							) : null}
-							Excluir
+							Cancelar
 						</Button>
-					</form>
+					</div>
 				</DialogContent>
 			</Dialog>
 			<Table>
