@@ -67,7 +67,7 @@ async function delete_transaction(
 		.executeTakeFirst();
 
 	if (!deletedTransaction) {
-		return;
+		throw new Error("Transação não encontrada");
 	}
 
 	await whatsapp.sendSuccessDeletedMessage(
