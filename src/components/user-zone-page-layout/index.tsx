@@ -24,7 +24,7 @@ export function UserZonePageLayout({
 					<Button key={`action-${index}`} {...action} />
 				))}
 			</div>
-			<div className="w-full h-full flex flex-col px-6 py-5">{children}</div>
+			<div className="w-full flex flex-col px-6 py-5">{children}</div>
 		</>
 	);
 }

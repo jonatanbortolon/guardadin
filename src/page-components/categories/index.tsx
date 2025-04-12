@@ -306,7 +306,7 @@ export default function CategoriesHome({ categories }: Props) {
 			<Table>
 				<TableHeader>
 					<TableRow>
-						<TableHead className="w-[100px]" />
+						<TableHead className="w-[100px]">ID</TableHead>
 						<TableHead>Nome</TableHead>
 						<TableHead className="w-[100px]" />
 					</TableRow>
