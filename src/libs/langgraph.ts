@@ -1,10 +1,10 @@
-import { StateGraph } from "@langchain/langgraph";
+import {
+	preInitializeConditionalEdge,
+	shouldContinueConditionalEdge,
+} from "@/langgraph/conditional-edges";
 import { llmCallNode, toolNode } from "@/langgraph/nodes";
 import { StateAnnotation } from "@/langgraph/state";
-import {
-	shouldContinueConditionalEdge,
-	preInitializeConditionalEdge,
-} from "@/langgraph/conditional-edges";
+import { StateGraph } from "@langchain/langgraph";
 
 const agentBuilder = new StateGraph(StateAnnotation)
 	.addNode("llmCall", llmCallNode)

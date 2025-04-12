@@ -1,6 +1,6 @@
+import { tools } from "@/langgraph/tools";
 import { env } from "@/libs/env";
 import { ChatOpenAI } from "@langchain/openai";
-import { tools } from "@/langgraph/tools";
 
 const llmWithoutTools = new ChatOpenAI({
 	configuration: {

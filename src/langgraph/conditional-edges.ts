@@ -1,12 +1,12 @@
 import { GENERIC_ERROR_MESSAGE } from "@/consts/whatsapp/messages/generic-error";
 import { MAX_TOKENS_EXCEEDED } from "@/consts/whatsapp/messages/max-tokens-exceeded";
+import { StateAnnotation } from "@/langgraph/state";
 import { kysely } from "@/libs/kysely";
 import { whatsapp } from "@/libs/whatsapp";
 import { LangGraphRunnableConfig } from "@langchain/langgraph";
 import { Tiktoken } from "js-tiktoken/lite";
 import o200k_base from "js-tiktoken/ranks/o200k_base";
 import { ResultAsync } from "neverthrow";
-import { StateAnnotation } from "@/langgraph/state";
 
 export async function preInitializeConditionalEdge(
 	state: typeof StateAnnotation.State,
