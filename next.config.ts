@@ -9,6 +9,14 @@ const nextConfig: NextConfig = {
 		"openai",
 		"zod",
 	],
+	webpack(config) {
+		config.experiments = {
+			asyncWebAssembly: true,
+			layers: true,
+		};
+
+		return config;
+	},
 	experimental: {
 		optimizePackageImports: ["lucide-react"],
 	},
