@@ -677,7 +677,7 @@ export function TransactionsHome({
 			<Table>
 				<TableHeader>
 					<TableRow>
-						<TableHead className="w-[100px]" />
+						<TableHead className="w-[100px]">ID</TableHead>
 						<TableHead>Descrição</TableHead>
 						<TableHead>Categoria</TableHead>
 						<TableHead>Conta Bancária</TableHead>

@@ -1,5 +1,5 @@
 "use client";
-import { Button, Props as ButtonProps } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { UserHeader } from "@/components/user-header";
 import {
 	BanknoteIcon,
@@ -76,7 +76,7 @@ export function UserZoneLayout({ children }: Props) {
 	return (
 		<div className="w-full h-full flex flex-col">
 			<UserHeader />
-			<div className="w-full h-full flex items-start justify-start">
+			<div className="w-full h-full flex items-start justify-start overflow-y-hidden">
 				<aside className="h-full hidden w-3/5 lg:w-1/5 sm:flex flex-col border-r border-border px-2 py-4 gap-2">
 					{links.map((props) => (
 						<UserZoneNavLink
@@ -85,7 +85,9 @@ export function UserZoneLayout({ children }: Props) {
 						/>
 					))}
 				</aside>
-				<main className="w-full h-full flex flex-col">{children}</main>
+				<main className="w-full h-full flex flex-col overflow-y-auto">
+					{children}
+				</main>
 			</div>
 		</div>
 	);
