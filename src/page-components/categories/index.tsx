@@ -253,8 +253,8 @@ export default function CategoriesHome({ categories }: Props) {
 						</div>
 					</form>
 					<Button
-						className="w-full"
-						variant="destructive"
+						className="w-full !border-destructive text-destructive hover:text-destructive"
+						variant="outline"
 						type="button"
 						onClick={toggleDeleteDialog(isUpdateDialogOpen)}
 					>
@@ -282,9 +282,9 @@ export default function CategoriesHome({ categories }: Props) {
 								value={String(isDeleteDialogOpen?.id) || ""}
 							/>
 							<Button
-								className="w-full"
+								className="w-full !border-destructive text-destructive hover:text-destructive"
+								variant="outline"
 								type="submit"
-								variant="destructive"
 								disabled={isDeletePending}
 							>
 								{isDeletePending ? (
