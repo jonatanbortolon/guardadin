@@ -55,6 +55,19 @@ export async function preInitializeConditionalEdge(
 	if (tokens > 50) {
 		await whatsapp.sendMessage(phoneNumber, MAX_TOKENS_EXCEEDED);
 
+		await ResultAsync.fromPromise(
+			kysely
+				.insertInto("chat_histories")
+				.values({
+					userId,
+					role: "user",
+					text: { content: MAX_TOKENS_EXCEEDED },
+				})
+				.returningAll()
+				.execute(),
+			console.error,
+		);
+
 		return "__end__";
 	}
 
