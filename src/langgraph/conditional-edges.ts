@@ -26,9 +26,22 @@ export async function preInitializeConditionalEdge(
 		return "__end__";
 	}
 
-	const userId = metadata?.userId;
+	const userIdRaw = metadata?.userId;
 
-	if (!userId || typeof userId !== "number") {
+	if (!userIdRaw) {
+		await whatsapp.sendMessage(phoneNumber, GENERIC_ERROR_MESSAGE);
+
+		return "__end__";
+	}
+
+	const userId =
+		typeof userIdRaw === "string"
+			? Number.parseInt(userIdRaw)
+			: typeof userIdRaw === "number"
+				? userIdRaw
+				: null;
+
+	if (!userId) {
 		await whatsapp.sendMessage(phoneNumber, GENERIC_ERROR_MESSAGE);
 
 		return "__end__";

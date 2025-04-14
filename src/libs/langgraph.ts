@@ -10,7 +10,6 @@ const agentBuilder = new StateGraph(StateAnnotation)
 	.addNode("llmCall", llmCallNode)
 	.addNode("tools", toolNode)
 
-	.addEdge("__start__", "llmCall")
 	.addEdge("tools", "__end__")
 
 	.addConditionalEdges("__start__", preInitializeConditionalEdge, {
