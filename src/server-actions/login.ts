@@ -78,5 +78,5 @@ export async function loginAction(
 		return createSessionNT.error;
 	}
 
-	redirect("/transactions");
+	redirect("/dashboard");
 }

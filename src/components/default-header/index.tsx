@@ -18,7 +18,7 @@ export function DefaultHeader() {
 				</Link>
 				<div className="flex items-center gap-6">
 					<Button asChild>
-						<Link href="/transactions">Acessar plataforma</Link>
+						<Link href="/dashboard">Acessar plataforma</Link>
 					</Button>
 					<ToggleThemeButton />
 				</div>
