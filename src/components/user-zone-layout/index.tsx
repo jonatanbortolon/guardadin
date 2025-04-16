@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { UserHeader } from "@/components/user-header";
 import {
 	BanknoteIcon,
+	ChartLineIcon,
 	LandmarkIcon,
 	type LucideProps,
 	TagIcon,
@@ -47,6 +48,12 @@ export function UserZoneLayout({ children }: Props) {
 	const pathname = usePathname();
 
 	const links: UserZoneNavLinkProps[] = [
+		{
+			text: "Dashboard",
+			url: "/dashboard",
+			icon: ChartLineIcon,
+			selected: pathname === "/dashboard",
+		},
 		{
 			text: "Lançamentos",
 			url: "/transactions",
