@@ -1,10 +1,10 @@
 "use client";
 import {
 	Card,
+	CardContent,
+	CardDescription,
 	CardHeader,
 	CardTitle,
-	CardDescription,
-	CardContent,
 } from "@/components/ui/card";
 import {
 	ChartConfig,
