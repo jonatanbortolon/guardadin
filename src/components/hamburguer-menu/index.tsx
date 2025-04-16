@@ -9,6 +9,7 @@ import {
 import { cn } from "@/utils/cn";
 import {
 	BanknoteIcon,
+	ChartLineIcon,
 	LandmarkIcon,
 	LucideProps,
 	Menu,
@@ -57,6 +58,12 @@ export function HamburgerMenu({ buttonClassName }: Props) {
 	const [open, setOpen] = useState(false);
 
 	const links = [
+		{
+			text: "Dashboard",
+			url: "/dashboard",
+			icon: ChartLineIcon,
+			selected: pathname === "/dashboard",
+		},
 		{
 			text: "Lançamentos",
 			url: "/transactions",
