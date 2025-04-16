@@ -18,7 +18,14 @@ const dialect = new NeonDialect({
 	webSocketConstructor: ws,
 	types: {
 		getTypeParser(id) {
-			if (id === PgBuiltins.NUMERIC) {
+			if (
+				id === PgBuiltins.NUMERIC ||
+				id === PgBuiltins.INT2 ||
+				id === PgBuiltins.INT4 ||
+				id === PgBuiltins.INT8 ||
+				id === PgBuiltins.FLOAT4 ||
+				id === PgBuiltins.FLOAT8
+			) {
 				return (value: any) =>
 					value === null ? null : Number.parseFloat(String(value));
 			}
