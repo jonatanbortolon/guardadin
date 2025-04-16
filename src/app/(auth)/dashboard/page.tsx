@@ -1,7 +1,6 @@
 import { kysely } from "@/libs/kysely";
 import { session } from "@/libs/session";
 import { DashboardHome } from "@/page-components/dashboard";
-import { TransactionsHome } from "@/page-components/transactions";
 import { endOfMonth, startOfMonth } from "date-fns";
 import { ResultAsync } from "neverthrow";
 import { Metadata } from "next";

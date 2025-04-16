@@ -2,6 +2,7 @@ import { session } from "@/libs/session";
 import { NextRequest, NextResponse } from "next/server";
 
 const authRoutes = [
+	"/dashboard",
 	"/transactions",
 	"/categories",
 	"/bank-accounts",
@@ -28,7 +29,7 @@ export default async function middleware(req: NextRequest) {
 	}
 
 	if (isGuestRoute && userId) {
-		return NextResponse.redirect(new URL("/transactions", req.nextUrl));
+		return NextResponse.redirect(new URL("/dashboard", req.nextUrl));
 	}
 
 	return NextResponse.next();
