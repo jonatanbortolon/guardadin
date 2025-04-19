@@ -36,7 +36,7 @@ export default async function Page() {
 	const totalThisMonthSpentNT = await ResultAsync.fromPromise(
 		kysely
 			.selectFrom("transactions")
-			.select(({ fn }) => [fn.sum<number>("total").as("value")])
+			.select(({ fn }) => [fn.sum<number | null>("total").as("value")])
 			.where(({ eb, and, between }) =>
 				and([
 					eb("userId", "=", user.id),
@@ -54,7 +54,7 @@ export default async function Page() {
 	const totalThisMonthReceivedNT = await ResultAsync.fromPromise(
 		kysely
 			.selectFrom("transactions")
-			.select(({ fn }) => [fn.sum<number>("total").as("value")])
+			.select(({ fn }) => [fn.sum<number | null>("total").as("value")])
 			.where(({ eb, and, between }) =>
 				and([
 					eb("userId", "=", user.id),
@@ -75,7 +75,7 @@ export default async function Page() {
 			.selectAll("categories")
 			.innerJoin("transactions", "transactions.categoryId", "categories.id")
 			.select(({ fn }) => [
-				fn.sum<number>("transactions.total").as("totalSpent"),
+				fn.sum<number | null>("transactions.total").as("totalSpent"),
 			])
 			.where(({ and, eb, between }) =>
 				and([
@@ -91,10 +91,11 @@ export default async function Page() {
 	const thisMonthSpentCategories = thisMonthSpentCategoriesNT.isErr()
 		? []
 		: thisMonthSpentCategoriesNT.value;
+
 	const thisMonthSpentWithoutCategoryNT = await ResultAsync.fromPromise(
 		kysely
 			.selectFrom("transactions")
-			.select(({ fn }) => [fn.sum<number>("total").as("totalSpent")])
+			.select(({ fn }) => [fn.sum<number | null>("total").as("totalSpent")])
 			.where(({ and, eb, between }) =>
 				and([
 					eb("userId", "=", user.id),
@@ -119,7 +120,7 @@ export default async function Page() {
 				"bank_accounts.id",
 			)
 			.select(({ fn }) => [
-				fn.sum<number>("transactions.total").as("totalSpent"),
+				fn.sum<number | null>("transactions.total").as("totalSpent"),
 			])
 			.where(({ and, eb, between }) =>
 				and([
@@ -138,7 +139,7 @@ export default async function Page() {
 	const thisMonthSpentWithoutBankAccountNT = await ResultAsync.fromPromise(
 		kysely
 			.selectFrom("transactions")
-			.select(({ fn }) => [fn.sum<number>("total").as("totalSpent")])
+			.select(({ fn }) => [fn.sum<number | null>("total").as("totalSpent")])
 			.where(({ and, eb, between }) =>
 				and([
 					eb("userId", "=", user.id),
@@ -162,7 +163,7 @@ export default async function Page() {
 	const totalLastMonthSpentNT = await ResultAsync.fromPromise(
 		kysely
 			.selectFrom("transactions")
-			.select(({ fn }) => [fn.sum<number>("total").as("value")])
+			.select(({ fn }) => [fn.sum<number | null>("total").as("value")])
 			.where(({ eb, and, between }) =>
 				and([
 					eb("userId", "=", user.id),
@@ -180,7 +181,7 @@ export default async function Page() {
 	const totalLastMonthReceivedNT = await ResultAsync.fromPromise(
 		kysely
 			.selectFrom("transactions")
-			.select(({ fn }) => [fn.sum<number>("total").as("value")])
+			.select(({ fn }) => [fn.sum<number | null>("total").as("value")])
 			.where(({ eb, and, between }) =>
 				and([
 					eb("userId", "=", user.id),
