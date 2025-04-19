@@ -26,12 +26,12 @@ type Props = {
 	thisMonthReceived: number;
 
 	thisMonthSpentCategories: (Category & {
-		totalSpent: number;
+		totalSpent: number | null;
 	})[];
 	thisMonthSpentWithoutCategory: number | null;
 
 	thisMonthSpentBankAccounts: (BankAccount & {
-		totalSpent: number;
+		totalSpent: number | null;
 	})[];
 	thisMonthSpentWithoutBankAccount: number | null;
 
@@ -78,7 +78,7 @@ export function DashboardHome({
 			data.push({
 				id: `${category.id}`,
 				name: category.name,
-				totalSpent: category.totalSpent,
+				totalSpent: category.totalSpent || 0,
 				fill: `var(--chart-${(index + 1) % 5})`,
 				isCategory: true,
 			});
@@ -137,7 +137,7 @@ export function DashboardHome({
 			data.push({
 				id: `${bankAccount.id}`,
 				name: bankAccount.name,
-				totalSpent: bankAccount.totalSpent,
+				totalSpent: bankAccount.totalSpent || 0,
 				fill: `var(--chart-${Math.abs(((index + 1) % 5) - 5)})`,
 				isBankAccount: true,
 			});
