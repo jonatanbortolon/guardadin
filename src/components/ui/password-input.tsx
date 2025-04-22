@@ -13,8 +13,6 @@ export type PasswordInputProps = InputProps & {
 const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
 	({ className, showStrength, ...props }, ref) => {
 		const [showPassword, setShowPassword] = useState(false);
-		const disabled =
-			props.value === "" || props.value === undefined || props.disabled;
 
 		const passwordStrength = showStrength
 			? passwordStrengthCalculator(props.value?.toString() || "")
@@ -35,9 +33,8 @@ const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
 						size="sm"
 						className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
 						onClick={() => setShowPassword((prev) => !prev)}
-						disabled={disabled}
 					>
-						{showPassword && !disabled ? (
+						{showPassword ? (
 							<EyeIcon className="h-4 w-4" aria-hidden="true" />
 						) : (
 							<EyeOffIcon className="h-4 w-4" aria-hidden="true" />
