@@ -99,6 +99,7 @@ export default async function Page() {
 			.where(({ and, eb, between }) =>
 				and([
 					eb("userId", "=", user.id),
+                    eb("type", "=", "EXPENSE"),
 					eb("categoryId", "is", null),
 					between("boughtAt", montStartDate, montEndDate),
 				]),
@@ -126,6 +127,7 @@ export default async function Page() {
 				and([
 					eb("bank_accounts.userId", "=", user.id),
 					eb("transactions.userId", "=", user.id),
+                    eb("transactions.type", "=", "EXPENSE"),
 					between("transactions.boughtAt", montStartDate, montEndDate),
 				]),
 			)

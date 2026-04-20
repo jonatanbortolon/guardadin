@@ -3,7 +3,7 @@ import { MAX_TOKENS_EXCEEDED } from "@/consts/whatsapp/messages/max-tokens-excee
 import { StateAnnotation } from "@/langgraph/state";
 import { kysely } from "@/libs/kysely";
 import { whatsapp } from "@/libs/whatsapp";
-import { LangGraphRunnableConfig } from "@langchain/langgraph";
+import { END, LangGraphRunnableConfig } from "@langchain/langgraph";
 import { Tiktoken } from "js-tiktoken/lite";
 import o200k_base from "js-tiktoken/ranks/o200k_base";
 import { ResultAsync } from "neverthrow";
@@ -23,7 +23,7 @@ export async function preInitializeConditionalEdge(
 	if (!lastMessage) {
 		await whatsapp.sendMessage(phoneNumber, GENERIC_ERROR_MESSAGE);
 
-		return "__end__";
+		return END;
 	}
 
 	const userIdRaw = metadata?.userId;
@@ -31,7 +31,7 @@ export async function preInitializeConditionalEdge(
 	if (!userIdRaw) {
 		await whatsapp.sendMessage(phoneNumber, GENERIC_ERROR_MESSAGE);
 
-		return "__end__";
+		return END;
 	}
 
 	const userId =
@@ -44,7 +44,7 @@ export async function preInitializeConditionalEdge(
 	if (!userId) {
 		await whatsapp.sendMessage(phoneNumber, GENERIC_ERROR_MESSAGE);
 
-		return "__end__";
+		return END;
 	}
 
 	const userMessage = lastMessage.content as string;
@@ -68,7 +68,7 @@ export async function preInitializeConditionalEdge(
 			console.error,
 		);
 
-		return "__end__";
+		return END;
 	}
 
 	const userChatHistoryNT = await ResultAsync.fromPromise(
@@ -87,7 +87,7 @@ export async function preInitializeConditionalEdge(
 	if (userChatHistoryNT.isErr()) {
 		await whatsapp.sendMessage(phoneNumber, GENERIC_ERROR_MESSAGE);
 
-		return "__end__";
+		return END;
 	}
 
 	return "LLMCall";
@@ -103,7 +103,7 @@ export async function shouldContinueConditionalEdge(
 	const userId = annotation.metadata?.userId as number;
 
 	if (!lastMessage) {
-		return "__end__";
+		return END;
 	}
 
 	if ("tool_calls" in lastMessage && lastMessage.tool_calls?.length) {
@@ -124,5 +124,5 @@ export async function shouldContinueConditionalEdge(
 		return "Action";
 	}
 
-	return "__end__";
+	return END;
 }

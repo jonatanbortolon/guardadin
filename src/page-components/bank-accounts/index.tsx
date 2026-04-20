@@ -71,7 +71,7 @@ export default function BankAccountsHome({ bankAccounts }: Props) {
 
 	function changeCreateDialog(
 		field: keyof Omit<BankAccount, "id" | "createdAt" | "updatedAt" | "userId">,
-		value: any,
+		value: unknown,
 	) {
 		setIsCreateDialogOpen((old) => {
 			if (!old) {
@@ -102,7 +102,7 @@ export default function BankAccountsHome({ bankAccounts }: Props) {
 
 	function changeUpdateDialog(
 		field: keyof Omit<BankAccount, "createdAt" | "updatedAt" | "userId">,
-		value: any,
+		value: unknown,
 	) {
 		setIsUpdateDialogOpen((old) => {
 			if (!old) {
@@ -308,7 +308,7 @@ export default function BankAccountsHome({ bankAccounts }: Props) {
 					<DialogHeader>
 						<DialogTitle>Excluir Conta Bancária</DialogTitle>
 						<DialogDescription>
-							Exclua a conta bancária "{isDeleteDialogOpen?.name}" - ID:
+							Exclua a conta bancária &ldquo;{isDeleteDialogOpen?.name}&rdquo; - ID:
 							{isDeleteDialogOpen?.id}
 						</DialogDescription>
 					</DialogHeader>

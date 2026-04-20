@@ -25,7 +25,7 @@ export default function ProfileHome({ name, phone }: Props) {
 		undefined,
 	);
 
-	function changeUpdateData(field: "name" | "phone", value: any) {
+	function changeUpdateData(field: "name" | "phone", value: unknown) {
 		setUpdateData((old) => {
 			if (!old) {
 				return old;

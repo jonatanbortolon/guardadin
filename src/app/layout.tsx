@@ -37,7 +37,7 @@ export default function RootLayout({
 	children: ReactNode;
 }>) {
 	return (
-		<html className="dark" style={{ colorScheme: "dark" }} lang="pt-BR">
+		<html className="dark" style={{ colorScheme: "dark" }} lang="pt-BR" suppressHydrationWarning>
 			<head>
 				<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 			</head>

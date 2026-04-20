@@ -1,5 +1,5 @@
 services:
-# General services
+  # General services
   pgadmin:
     image: dpage/pgadmin4:latest
     environment:
@@ -40,9 +40,9 @@ services:
       - ollama
     networks:
       - ollama
-# End general services ======================================================================
+  # End general services ======================================================================
 
-# App services
+  # App services
   postgres:
     image: postgres:15
     env_file: .env
@@ -85,7 +85,7 @@ networks:
 configs:
   pgpass:
     content: |
-      postgres:${DB_PORT}:${DB_DATABASE}:${DB_USER}:${DB_PASSWORD}
+      postgres:5432:${DB_DATABASE}:${DB_USER}:${DB_PASSWORD}
   servers.json:
     content: |
       {
@@ -94,7 +94,7 @@ configs:
             "Name": "GuardaDin",
             "Group": "Servers",
             "Host": "postgres",
-            "Port": ${DB_PORT},
+            "Port": 5432,
             "MaintenanceDB": "${DB_DATABASE}",
             "Username": "${DB_USER}",
             "PassFile": "/pgpass",

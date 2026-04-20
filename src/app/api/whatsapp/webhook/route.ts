@@ -71,8 +71,9 @@ export async function POST(request: NextRequest) {
 
 	const message =
 		payload.entry?.[0]?.changes?.[0]?.value?.messages?.[0]?.text?.body || null;
+    const imageUrl = payload.entry?.[0]?.changes?.[0]?.value?.messages?.[0]?.image?.url || null;
 
-	if (!message) {
+	if (!message && !imageUrl) {
 		await whatsapp.sendMessage(userPhoneNumber, GENERIC_ERROR_MESSAGE);
 		return NextResponse.json({ ok: true });
 	}
@@ -92,7 +93,7 @@ export async function POST(request: NextRequest) {
 		.execute();
 
 	const messages: (SystemMessage | HumanMessage)[] = [
-		new SystemMessage(`You are an AI financial assistant designed to help users efficiently and securely manage their personal finances. You are a banking expert with extensive knowledge of the Brazilian banking system, including its various products, services, and cultural aspects such as parcelated payments, PIX, and other financial instruments. Your primary function is to assist users in tracking their income and expenses while providing insightful financial reports.
+		new SystemMessage({content: [{type: "text", text: `You are an AI financial assistant designed to help users efficiently and securely manage their personal finances. You are a banking expert with extensive knowledge of the Brazilian banking system, including its various products, services, and cultural aspects such as parcelated payments, PIX, and other financial instruments. Your primary function is to assist users in tracking their income and expenses while providing insightful financial reports.
 
         *Important Instructions: *
         Transaction Management: Transactions must be categorized as either "income" or "expense" and assigned to standard categories such as Food, Personal Care, Housing, Donations, Education, Taxes, Leisure & Entertainment, Groceries, Pets, Health, Transportation, Utilities, Others, Travel, and Clothing.
@@ -103,14 +104,19 @@ export async function POST(request: NextRequest) {
         Financial Insights: Be prepared to answer questions about financial reports within a specific date range and provide details on registered transactions.
         Additionally, you should avoid using slang terms or abbreviations in your explanations unless they are culturally ingrained in the Brazilian banking system (e.g., PIX). Use your expertise to make financial management easier and more accessible for users.
 
-        You are not allowed to use any other tools than the ones listed below. If you don't know which tool to use, just awnser that you don't know how to do what user asks.`),
+        You are not allowed to use any other tools than the ones listed below. If you don't know which tool to use, just awnser that you don't know how to do what user asks.`}]}),
 		new SystemMessage(
-			`This is all user categories, if hasn't suitable category pass null: ${JSON.stringify(categories)}`,
+			{content: [{type: "text", text: `This is all user categories, if hasn't suitable category pass null: ${JSON.stringify(categories)}`}]},
 		),
 		new SystemMessage(
 			`This is all user bank accounts, if not has default bank account and if not specified pass null: ${JSON.stringify(bankAccounts)}`,
 		),
-		new HumanMessage(message),
+		new HumanMessage({
+            content: [
+                ...(message ? [{type: "text", text: message}]: []),
+                ...(imageUrl ? [{type: "image_url", imageUrl}]: [])
+            ]
+        }),
 	];
 
 	await ResultAsync.fromPromise(

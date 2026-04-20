@@ -105,7 +105,7 @@ export function TransactionsHome({
 
 	function changeCreateDialog(
 		field: keyof Omit<Transaction, "id" | "createdAt" | "updatedAt" | "userId">,
-		value: any,
+		value: unknown,
 	) {
 		setIsCreateDialogOpen((old) => {
 			if (!old) {
@@ -150,7 +150,7 @@ export function TransactionsHome({
 
 	function changeUpdateDialog(
 		field: keyof Omit<Transaction, "createdAt" | "updatedAt" | "userId">,
-		value: any,
+		value: unknown,
 	) {
 		setIsUpdateDialogOpen((old) => {
 			if (!old) {
@@ -641,7 +641,7 @@ export function TransactionsHome({
 					<DialogHeader>
 						<DialogTitle>Excluir Transação</DialogTitle>
 						<DialogDescription>
-							Exclua a transação "{isDeleteDialogOpen?.description}" - ID:
+							Exclua a transação &ldquo;{isDeleteDialogOpen?.description}&rdquo; - ID:
 							{isDeleteDialogOpen?.id}
 						</DialogDescription>
 					</DialogHeader>

@@ -4,7 +4,7 @@ import { Insertable, Selectable, Updateable } from "kysely";
 export type ChatHistoryTable = {
 	userId: number;
 	role: string;
-	text: Record<string, any>;
+	text: Record<string, never>;
 } & BaseModel;
 
 export type ChatHistory = Selectable<ChatHistoryTable>;

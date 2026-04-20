@@ -11,7 +11,7 @@ const authRoutes = [
 const guestRoutes = ["/login"];
 const silentRoutes = ["/"];
 
-export default async function middleware(req: NextRequest) {
+export default async function proxy(req: NextRequest) {
 	const path = req.nextUrl.pathname;
 	const isSilentRoute = silentRoutes.includes(path);
 

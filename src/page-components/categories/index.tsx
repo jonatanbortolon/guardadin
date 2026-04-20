@@ -72,7 +72,7 @@ export default function CategoriesHome({ categories }: Props) {
 			Category,
 			"id" | "isDefault" | "createdAt" | "updatedAt" | "userId"
 		>,
-		value: any,
+		value: unknown,
 	) {
 		setIsCreateDialogOpen((old) => {
 			if (!old) {
@@ -105,7 +105,7 @@ export default function CategoriesHome({ categories }: Props) {
 			Category,
 			"isDefault" | "createdAt" | "updatedAt" | "userId"
 		>,
-		value: any,
+		value: unknown,
 	) {
 		setIsUpdateDialogOpen((old) => {
 			if (!old) {
@@ -270,7 +270,7 @@ export default function CategoriesHome({ categories }: Props) {
 					<DialogHeader>
 						<DialogTitle>Excluir Categoria</DialogTitle>
 						<DialogDescription>
-							Exclua a categoria "{isDeleteDialogOpen?.name}" - ID:
+							Exclua a categoria &ldquo;{isDeleteDialogOpen?.name}&rdquo; - ID:
 							{isDeleteDialogOpen?.id}
 						</DialogDescription>
 					</DialogHeader>
