@@ -1,0 +1,48 @@
+services:
+  postgres:
+    image: postgres:15
+    env_file: .env
+    environment:
+      POSTGRES_DB: ${DB_DATABASE}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    networks:
+      - app
+
+  neon-proxy:
+    image: ghcr.io/neondatabase/wsproxy:latest
+    environment:
+      APPEND_PORT: 'postgres:5432'
+      ALLOW_ADDR_REGEX: '.*'
+      LOG_TRAFFIC: 'true'
+    ports:
+      - 5433:80
+    depends_on:
+      - postgres
+    networks:
+      - app
+
+  mailpit:
+    image: axllent/mailpit
+    ports:
+      - 1025:1025
+      - 8025:8025
+    networks:
+      - app
+
+  ollama:
+    image: ollama/ollama
+    ports:
+      - 11434:11434
+    entrypoint: [ "/bin/sh", "-c" ]
+    command:
+      - "(until ollama list >/dev/null 2>&1; do sleep 1; done; ollama list | grep -q llama3 || ollama pull llama3 2>&1 | tr '\r' '\n') & exec ollama serve"
+    healthcheck:
+      test: [ "CMD", "ollama", "list" ]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+
+networks:
+  app:
+    driver: bridge
