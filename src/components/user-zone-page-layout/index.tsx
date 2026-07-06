@@ -1,4 +1,5 @@
 import type { PropsWithChildren } from "react";
+import { DocumentTitle } from "@/components/document-title";
 import { Button, type Props as ButtonProps } from "@/components/ui/button";
 
 type Props = PropsWithChildren<{
@@ -15,6 +16,7 @@ export function UserZonePageLayout({
 }: Props) {
 	return (
 		<>
+			<DocumentTitle title={title} />
 			<div className="w-full flex justify-between items-center px-6 sm:px-16 py-8 border-b border-border">
 				<div className="w-full">
 					<h2 className="text-2xl font-bold">{title}</h2>
