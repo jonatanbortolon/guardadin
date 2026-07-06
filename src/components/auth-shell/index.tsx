@@ -1,4 +1,5 @@
 import type { PropsWithChildren, ReactNode } from "react";
+import { DocumentTitle } from "@/components/document-title";
 import { LanguageSwitcher } from "@/components/language-switcher";
 import { ToggleThemeButton } from "@/components/toggle-theme-button";
 import {
@@ -17,6 +18,7 @@ type Props = PropsWithChildren<{
 export function AuthShell({ title, description, children }: Props) {
 	return (
 		<div className="relative min-h-screen w-full flex flex-col items-center justify-center gap-6 p-4">
+			{typeof title === "string" ? <DocumentTitle title={title} /> : null}
 			<div className="absolute top-4 right-4 flex items-center gap-2">
 				<LanguageSwitcher />
 				<ToggleThemeButton />
