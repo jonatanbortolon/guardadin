@@ -39,17 +39,16 @@ export function buildSystemMessages(
 	categories: Category[],
 	bankAccounts: BankAccount[],
 ): SystemMessage[] {
+	const categoriesList = `Available categories (use the id): ${JSON.stringify(
+		categories.map(({ id, name }) => ({ id, name })),
+	)}`;
+	const bankAccountsList = `Available bank accounts (use the id): ${JSON.stringify(
+		bankAccounts.map(({ id, name }) => ({ id, name })),
+	)}`;
+
 	return [
-		new SystemMessage(INSTRUCTIONS),
 		new SystemMessage(
-			`Available categories (use the id): ${JSON.stringify(
-				categories.map(({ id, name }) => ({ id, name })),
-			)}`,
-		),
-		new SystemMessage(
-			`Available bank accounts (use the id): ${JSON.stringify(
-				bankAccounts.map(({ id, name }) => ({ id, name })),
-			)}`,
+			`${INSTRUCTIONS}\n\n${categoriesList}\n\n${bankAccountsList}`,
 		),
 	];
 }
